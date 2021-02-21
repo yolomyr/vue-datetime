@@ -121,6 +121,8 @@ flow | `Array` | Depends of *type* | Customize steps flow, steps available: time
 title | `String` | `''` | Popup title.
 hide-backdrop | `Boolean` | `false` | Show/Hide backdrop.
 backdrop-click | `Boolean` | `true` | Enable/Disable backdrop click to cancel (outside click).
+excluded-days-of-week | `Array` | `[]` | Array of excluded days of week (days starts from 1 = Monday)
+time-parts | `Array` | `[]` | Time presets for time popup, should be in format like "10:30"
 
 Input inherits all props not defined above but `style` and `class` will be inherited by root element. [See inheritAttrs option](https://vuejs.org/v2/api/#inheritAttrs)
 
