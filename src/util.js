@@ -8,6 +8,8 @@ export function capitalize (string) {
 export function datetimeFromISO (string) {
   const datetime = DateTime.fromISO(string).toUTC()
 
+  datetime.set({ days: -2 })
+
   return datetime.isValid ? datetime : null
 }
 
@@ -29,8 +31,12 @@ export function monthDays (year, month, weekStart) {
     )
 }
 
-export function monthDayIsDisabled (minDate, maxDate, year, month, day) {
+export function monthDayIsDisabled (minDate, maxDate, year, month, day, excludedDaysOfWeek = []) {
   const date = DateTime.fromObject({ year, month, day, zone: 'UTC' })
+
+  if (excludedDaysOfWeek.includes(date.weekday)) {
+    return true
+  }
 
   minDate = minDate ? startOfDay(minDate.setZone('UTC', { keepLocalTime: true })) : null
   maxDate = maxDate ? startOfDay(maxDate.setZone('UTC', { keepLocalTime: true })) : null

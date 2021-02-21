@@ -49,6 +49,23 @@
     </div>
   </div>
 
+  <h2>Datetime with excluded days of week</h2>
+
+  <div class="example">
+    <div class="example-inputs">
+      <datetime type="datetime" :excluded-days-of-week="excludedDaysOfWeek"></datetime>
+
+      <div class="values">
+        <p>
+          <strong>Value:</strong> {{ datetime }}
+        </p>
+      </div>
+    </div>
+    <div class="example-code">
+      <pre><code>&#x3C;datetime type=&#x22;datetime&#x22; v-model=&#x22;datetime&#x22;&#x3E;&#x3C;/datetime&#x3E;</code></pre>
+    </div>
+  </div>
+
   <h2>12h datetime</h2>
 
   <div class="example">
@@ -84,7 +101,7 @@
   <h2>Time parts</h2>
   <div class="example">
     <div class="example-inputs">
-      <datetime type="time" :time-parts="timeParts" v-model="time"></datetime>
+      <datetime type="time" :time-parts="timeParts"></datetime>
       <div class="values">
         <p>
           <strong>Value:</strong> {{ time }}

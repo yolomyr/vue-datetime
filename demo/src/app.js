@@ -27,6 +27,10 @@ new Vue({
         '12:15',
         '12:45',
         '14:00'
+      ],
+      excludedDaysOfWeek: [
+        6,
+        7
       ]
     }
   }

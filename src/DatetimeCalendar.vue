@@ -54,6 +54,10 @@ export default {
     weekStart: {
       type: Number,
       default: 1
+    },
+    excludedDaysOfWeek: {
+      type: Array,
+      default: () => []
     }
   },
 
@@ -76,11 +80,13 @@ export default {
       return this.months[this.newMonth - 1]
     },
     days () {
-      return monthDays(this.newYear, this.newMonth, this.weekStart).map(day => ({
-        number: day,
-        selected: day && this.year === this.newYear && this.month === this.newMonth && this.day === day,
-        disabled: !day || monthDayIsDisabled(this.minDate, this.maxDate, this.newYear, this.newMonth, day)
-      }))
+      return monthDays(this.newYear, this.newMonth, this.weekStart).map(day => {
+        return {
+          number: day,
+          selected: day && this.year === this.newYear && this.month === this.newMonth && this.day === day,
+          disabled: !day || monthDayIsDisabled(this.minDate, this.maxDate, this.newYear, this.newMonth, day, this.excludedDaysOfWeek)
+        }
+      })
     }
   },
 

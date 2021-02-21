@@ -26,6 +26,7 @@
           :minute-step="minuteStep"
           :time-parts="timeParts"
           :time-parts-empty="timePartsEmpty"
+          :excluded-days-of-week="excludedDaysOfWeek"
           :min-datetime="popupMinDatetime"
           :max-datetime="popupMaxDatetime"
           @confirm="confirm"
@@ -148,6 +149,10 @@ export default {
     backdropClick: {
       type: Boolean,
       default: true
+    },
+    excludedDaysOfWeek: {
+      type: Array,
+      default: () => []
     }
   },
 
@@ -239,6 +244,9 @@ export default {
     },
     newPopupDatetime () {
       let datetime = DateTime.utc().setZone(this.zone).set({ seconds: 0, milliseconds: 0 })
+      while (this.excludedDaysOfWeek.includes(datetime.weekday)) {
+        datetime = datetime.plus({ days: 1 })
+      }
 
       if (this.popupMinDatetime && datetime < this.popupMinDatetime) {
         datetime = this.popupMinDatetime.set({ seconds: 0, milliseconds: 0 })

@@ -28,6 +28,7 @@
           :min-date="minDatetime"
           :max-date="maxDatetime"
           :week-start="weekStart"
+          :excluded-days-of-week="excludedDaysOfWeek"
       ></datetime-calendar>
       <datetime-time-picker
           v-if="step === 'time'"
@@ -134,6 +135,10 @@ export default {
     },
     title: {
       type: String
+    },
+    excludedDaysOfWeek: {
+      type: Array,
+      default: () => []
     }
   },
 
