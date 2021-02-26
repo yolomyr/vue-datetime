@@ -1,7 +1,19 @@
 <template>
   <div class="vdatetime-month-picker">
-    <div class="vdatetime-month-picker__list vdatetime-month-picker__list" ref="monthList">
-      <div class="vdatetime-month-picker__item" v-for="month in months" @click="select(month)" :class="{'vdatetime-month-picker__item--selected': month.selected, 'vdatetime-month-picker__item--disabled': month.disabled}">{{ month.label }}
+    <div
+      class="vdatetime-month-picker__list vdatetime-month-picker__list"
+      ref="monthList"
+    >
+      <div
+        class="vdatetime-month-picker__item"
+        v-for="month in months"
+        @click="select(month)"
+        :class="{
+          'vdatetime-month-picker__item--selected': month.selected,
+          'vdatetime-month-picker__item--disabled': month.disabled
+        }"
+      >
+        {{ month.label }}
       </div>
     </div>
   </div>
@@ -37,7 +49,9 @@ export default {
         number: ++index,
         label: month,
         selected: index === this.month,
-        disabled: !index || monthIsDisabled(this.minDate, this.maxDate, this.year, index)
+        disabled:
+          !index ||
+          monthIsDisabled(this.minDate, this.maxDate, this.year, index)
       }))
     }
   },
@@ -52,8 +66,12 @@ export default {
     },
 
     scrollToCurrent () {
-      const selectedMonth = this.$refs.monthList.querySelector('.vdatetime-month-picker__item--selected')
-      this.$refs.monthList.scrollTop = selectedMonth ? selectedMonth.offsetTop - 250 : 0
+      const selectedMonth = this.$refs.monthList.querySelector(
+        '.vdatetime-month-picker__item--selected'
+      )
+      this.$refs.monthList.scrollTop = selectedMonth
+        ? selectedMonth.offsetTop - 250
+        : 0
     }
   },
 
@@ -72,7 +90,7 @@ export default {
   box-sizing: border-box;
 
   &::after {
-    content: '';
+    content: "";
     display: table;
     clear: both;
   }
@@ -107,7 +125,7 @@ export default {
   font-size: 20px;
   text-align: center;
   cursor: pointer;
-  transition: font-size .3s;
+  transition: font-size 0.3s;
 }
 
 .vdatetime-month-picker__item:hover {

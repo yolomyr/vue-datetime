@@ -1,7 +1,19 @@
 <template>
   <div class="vdatetime-year-picker">
-    <div class="vdatetime-year-picker__list vdatetime-year-picker__list" ref="yearList">
-      <div class="vdatetime-year-picker__item" v-for="year in years" @click="select(year)" :class="{'vdatetime-year-picker__item--selected': year.selected, 'vdatetime-year-picker__item--disabled': year.disabled}">{{ year.number }}
+    <div
+      class="vdatetime-year-picker__list vdatetime-year-picker__list"
+      ref="yearList"
+    >
+      <div
+        class="vdatetime-year-picker__item"
+        v-for="year in years"
+        @click="select(year)"
+        :class="{
+          'vdatetime-year-picker__item--selected': year.selected,
+          'vdatetime-year-picker__item--disabled': year.disabled
+        }"
+      >
+        {{ year.number }}
       </div>
     </div>
   </div>
@@ -48,8 +60,12 @@ export default {
 
     scrollToCurrent () {
       if (this.$refs.yearList) {
-        const selectedYear = this.$refs.yearList.querySelector('.vdatetime-year-picker__item--selected')
-        this.$refs.yearList.scrollTop = selectedYear ? selectedYear.offsetTop - 250 : 0
+        const selectedYear = this.$refs.yearList.querySelector(
+          '.vdatetime-year-picker__item--selected'
+        )
+        this.$refs.yearList.scrollTop = selectedYear
+          ? selectedYear.offsetTop - 250
+          : 0
       }
     }
   },
@@ -69,7 +85,7 @@ export default {
   box-sizing: border-box;
 
   &::after {
-    content: '';
+    content: "";
     display: table;
     clear: both;
   }
@@ -104,7 +120,7 @@ export default {
   font-size: 20px;
   text-align: center;
   cursor: pointer;
-  transition: font-size .3s;
+  transition: font-size 0.3s;
 }
 
 .vdatetime-year-picker__item:hover {

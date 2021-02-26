@@ -1,22 +1,54 @@
 <template>
   <div class="vdatetime-calendar">
     <div class="vdatetime-calendar__navigation">
-      <div class="vdatetime-calendar__navigation--previous" @click="previousMonth">
+      <div
+        class="vdatetime-calendar__navigation--previous"
+        @click="previousMonth"
+      >
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 61.3 102.8">
-          <path fill="none" stroke="#444" stroke-width="14" stroke-miterlimit="10" d="M56.3 97.8L9.9 51.4 56.3 5"/>
+          <path
+            fill="none"
+            stroke="#444"
+            stroke-width="14"
+            stroke-miterlimit="10"
+            d="M56.3 97.8L9.9 51.4 56.3 5"
+          />
         </svg>
       </div>
-      <div class="vdatetime-calendar__current--month">{{ monthName }} {{ newYear }}</div>
+      <div class="vdatetime-calendar__current--month">
+        {{ monthName }} {{ newYear }}
+      </div>
       <div class="vdatetime-calendar__navigation--next" @click="nextMonth">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 61.3 102.8">
-          <path fill="none" stroke="#444" stroke-width="14" stroke-miterlimit="10" d="M56.3 97.8L9.9 51.4 56.3 5"/>
+          <path
+            fill="none"
+            stroke="#444"
+            stroke-width="14"
+            stroke-miterlimit="10"
+            d="M56.3 97.8L9.9 51.4 56.3 5"
+          />
         </svg>
       </div>
     </div>
     <div class="vdatetime-calendar__month">
-      <div class="vdatetime-calendar__month__weekday" v-for="weekday in weekdays">{{ weekday }}</div>
-      <div class="vdatetime-calendar__month__day" v-for="day in days" @click="selectDay(day)" :class="{'vdatetime-calendar__month__day--selected': day.selected, 'vdatetime-calendar__month__day--disabled': day.disabled}">
-        <span><span>{{ day.number }}</span></span>
+      <div
+        class="vdatetime-calendar__month__weekday"
+        v-for="weekday in weekdays"
+      >
+        {{ weekday }}
+      </div>
+      <div
+        class="vdatetime-calendar__month__day"
+        v-for="day in days"
+        @click="selectDay(day)"
+        :class="{
+          'vdatetime-calendar__month__day--selected': day.selected,
+          'vdatetime-calendar__month__day--disabled': day.disabled
+        }"
+      >
+        <span
+          ><span>{{ day.number }}</span></span
+        >
       </div>
     </div>
   </div>
@@ -63,7 +95,11 @@ export default {
 
   data () {
     return {
-      newDate: DateTime.fromObject({ year: this.year, month: this.month, zone: 'UTC' }),
+      newDate: DateTime.fromObject({
+        year: this.year,
+        month: this.month,
+        zone: 'UTC'
+      }),
       weekdays: weekdays(this.weekStart),
       months: months()
     }
@@ -83,8 +119,21 @@ export default {
       return monthDays(this.newYear, this.newMonth, this.weekStart).map(day => {
         return {
           number: day,
-          selected: day && this.year === this.newYear && this.month === this.newMonth && this.day === day,
-          disabled: !day || monthDayIsDisabled(this.minDate, this.maxDate, this.newYear, this.newMonth, day, this.excludedDaysOfWeek)
+          selected:
+            day &&
+            this.year === this.newYear &&
+            this.month === this.newMonth &&
+            this.day === day,
+          disabled:
+            !day ||
+            monthDayIsDisabled(
+              this.minDate,
+              this.maxDate,
+              this.newYear,
+              this.newMonth,
+              day,
+              this.excludedDaysOfWeek
+            )
         }
       })
     }
@@ -134,7 +183,7 @@ export default {
     height: 13px;
 
     & path {
-      transition: stroke .3s;
+      transition: stroke 0.3s;
     }
   }
 
@@ -159,7 +208,7 @@ export default {
 
 .vdatetime-calendar__month {
   padding: 0 20px;
-  transition: height .2s;
+  transition: height 0.2s;
 }
 
 .vdatetime-calendar__month__weekday,
@@ -191,7 +240,7 @@ export default {
       left: 0;
       border: 0;
       border-radius: 50%;
-      transition: background-color .3s, color .3s;
+      transition: background-color 0.3s, color 0.3s;
     }
   }
 }

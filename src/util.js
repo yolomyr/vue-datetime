@@ -92,7 +92,7 @@ export function years (current) {
 }
 
 export function timeFromPart (part) {
-  return part.split(':')
+  return part.split(':').map(function (time) { return parseInt(time) })
 }
 
 export function pad (number) {

@@ -1,45 +1,63 @@
 <template>
   <div class="vdatetime">
     <slot name="before"></slot>
-    <input class="vdatetime-input"
-           :class="inputClass"
-           :style="inputStyle"
-           :id="inputId"
-           type="text"
-           :value="inputValue"
-           v-bind="$attrs"
-           v-on="$listeners"
-           @click="open"
-           @focus="open">
-    <input v-if="hiddenName" type="hidden" :name="hiddenName" :value="value" @input="setValue">
+    <input
+      class="vdatetime-input"
+      :class="inputClass"
+      :style="inputStyle"
+      :id="inputId"
+      type="text"
+      :value="inputValue"
+      v-bind="$attrs"
+      v-on="$listeners"
+      @click="open"
+      @focus="open"
+    />
+    <input
+      v-if="hiddenName"
+      type="hidden"
+      :name="hiddenName"
+      :value="value"
+      @input="setValue"
+    />
     <slot name="after"></slot>
     <transition-group name="vdatetime-fade" tag="div">
-      <div key="overlay" v-if="isOpen && !hideBackdrop" class="vdatetime-overlay" @click.self="clickOutside"></div>
+      <div
+        key="overlay"
+        v-if="isOpen && !hideBackdrop"
+        class="vdatetime-overlay"
+        @click.self="clickOutside"
+      ></div>
       <datetime-popup
-          key="popup"
-          v-if="isOpen"
-          :type="type"
-          :datetime="popupDate"
-          :phrases="phrases"
-          :use12-hour="use12Hour"
-          :hour-step="hourStep"
-          :minute-step="minuteStep"
-          :time-parts="timeParts"
-          :time-parts-empty="timePartsEmpty"
-          :excluded-days-of-week="excludedDaysOfWeek"
-          :min-datetime="popupMinDatetime"
-          :max-datetime="popupMaxDatetime"
-          @confirm="confirm"
-          @cancel="cancel"
-          :auto="auto"
-          :week-start="weekStart"
-          :flow="flow"
-          :title="title">
+        key="popup"
+        v-if="isOpen"
+        :type="type"
+        :datetime="popupDate"
+        :phrases="phrases"
+        :use12-hour="use12Hour"
+        :hour-step="hourStep"
+        :minute-step="minuteStep"
+        :time-parts="timeParts"
+        :time-parts-empty="timePartsEmpty"
+        :excluded-days-of-week="excludedDaysOfWeek"
+        :min-datetime="popupMinDatetime"
+        :max-datetime="popupMaxDatetime"
+        @confirm="confirm"
+        @cancel="cancel"
+        :auto="auto"
+        :week-start="weekStart"
+        :flow="flow"
+        :title="title"
+      >
         <template slot="button-cancel__internal" slot-scope="scope">
-          <slot name="button-cancel" v-bind:step="scope.step">{{ phrases.cancel }}</slot>
+          <slot name="button-cancel" v-bind:step="scope.step">{{
+            phrases.cancel
+          }}</slot>
         </template>
         <template slot="button-confirm__internal" slot-scope="scope">
-          <slot name="button-confirm" v-bind:step="scope.step">{{ phrases.ok }}</slot>
+          <slot name="button-confirm" v-bind:step="scope.step">{{
+            phrases.ok
+          }}</slot>
         </template>
       </datetime-popup>
     </transition-group>
@@ -60,7 +78,8 @@ export default {
 
   props: {
     value: {
-      type: String
+      type: String,
+      default: ''
     },
     valueZone: {
       type: String,
@@ -193,19 +212,31 @@ export default {
       }
 
       if (typeof format === 'string') {
-        return this.datetime ? DateTime.fromISO(this.datetime).setZone(this.zone).toFormat(format) : ''
+        return this.datetime
+          ? DateTime.fromISO(this.datetime)
+              .setZone(this.zone)
+              .toFormat(format)
+          : ''
       } else {
-        return this.datetime ? this.datetime.setZone(this.zone).toLocaleString(format) : ''
+        return this.datetime
+          ? this.datetime.setZone(this.zone).toLocaleString(format)
+          : ''
       }
     },
     popupDate () {
-      return this.datetime ? this.datetime.setZone(this.zone) : this.newPopupDatetime()
+      return this.datetime
+        ? this.datetime.setZone(this.zone)
+        : this.newPopupDatetime()
     },
     popupMinDatetime () {
-      return this.minDatetime ? DateTime.fromISO(this.minDatetime).setZone(this.zone) : null
+      return this.minDatetime
+        ? DateTime.fromISO(this.minDatetime).setZone(this.zone)
+        : null
     },
     popupMaxDatetime () {
-      return this.maxDatetime ? DateTime.fromISO(this.maxDatetime).setZone(this.zone) : null
+      return this.maxDatetime
+        ? DateTime.fromISO(this.maxDatetime).setZone(this.zone)
+        : null
     },
     timePartsEmpty () {
       return this.timeParts.length === 0
@@ -214,7 +245,9 @@ export default {
 
   methods: {
     emitInput () {
-      let datetime = this.datetime ? this.datetime.setZone(this.valueZone) : null
+      let datetime = this.datetime
+        ? this.datetime.setZone(this.valueZone)
+        : null
 
       if (datetime && this.type === 'date') {
         datetime = startOfDay(datetime)
@@ -240,10 +273,15 @@ export default {
       this.close()
     },
     clickOutside () {
-      if (this.backdropClick === true) { this.cancel() }
+      if (this.backdropClick === true) {
+        this.cancel()
+      }
     },
     newPopupDatetime () {
-      let datetime = DateTime.utc().setZone(this.zone).set({ seconds: 0, milliseconds: 0 })
+      let datetime = this.minDatetime ? DateTime.fromISO(this.minDatetime) : DateTime.utc()
+
+      datetime.setZone(this.zone)
+        .set({ seconds: 0, milliseconds: 0 })
       while (this.excludedDaysOfWeek.includes(datetime.weekday)) {
         datetime = datetime.plus({ days: 1 })
       }
@@ -260,7 +298,8 @@ export default {
         return datetime
       }
 
-      const roundedMinute = Math.round(datetime.minute / this.minuteStep) * this.minuteStep
+      const roundedMinute =
+        Math.round(datetime.minute / this.minuteStep) * this.minuteStep
 
       if (roundedMinute === 60) {
         return datetime.plus({ hours: 1 }).set({ minute: 0 })
@@ -279,7 +318,7 @@ export default {
 <style>
 .vdatetime-fade-enter-active,
 .vdatetime-fade-leave-active {
-  transition: opacity .4s;
+  transition: opacity 0.4s;
 }
 
 .vdatetime-fade-enter,
@@ -295,6 +334,6 @@ export default {
   bottom: 0;
   left: 0;
   background: rgba(0, 0, 0, 0.5);
-  transition: opacity .5s;
+  transition: opacity 0.5s;
 }
 </style>
